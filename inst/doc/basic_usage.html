@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Basic Usage</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Basic Usage</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#overview" id="toc-overview">Overview</a></li>
+<li><a href="#pedigree-parsing-and-manipulation" id="toc-pedigree-parsing-and-manipulation">Pedigree parsing and
+manipulation</a></li>
+<li><a href="#degree-inference" id="toc-degree-inference">Degree
+Inference</a></li>
+<li><a href="#benchmarking-degree-classification" id="toc-benchmarking-degree-classification">Benchmarking Degree
+Classification</a></li>
+<li><a href="#ibd-segment-analysis" id="toc-ibd-segment-analysis">IBD
+Segment Analysis</a></li>
+</ul>
+</div>
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>The <code>skater</code> package provides a collection of analysis and
+utility functions for <strong>S</strong>NP-based
+<strong>k</strong>inship <strong>a</strong>nalysis,
+<strong>t</strong>esting, and <strong>e</strong>valuation as an
+<strong>R</strong> package. Functions in the package include tools for
+working with pedigree data, performing relationship degree inference,
+assessing classification accuracy, and summarizing IBD segment data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(skater)</span></code></pre></div>
+</div>
+<div id="pedigree-parsing-and-manipulation" class="section level2">
+<h2>Pedigree parsing and manipulation</h2>
+<p>Pedigrees define familial relationships in a hierarchical
+structure.</p>
+<p>One of the formats used by PLINK and other genetic analysis tools is
+the <code>.fam</code> file.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> A <code>.fam</code> file is a tabular
+format with one row per individual and columns for unique IDs of the
+mother, father, and the family unit. The package includes
+<code>read_fam()</code> to read files in this format:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>famfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;3gens.fam&quot;</span>, <span class="at">package=</span><span class="st">&quot;skater&quot;</span>, <span class="at">mustWork=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>fam <span class="ot">&lt;-</span> <span class="fu">read_fam</span>(famfile)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>fam</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># # A tibble: 64 × 6</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#    fid      id                dadid             momid               sex affected</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;             &lt;int&gt;    &lt;int&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#  1 testped1 testped1_g1-b1-s1 0                 0                     1        1</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#  2 testped1 testped1_g1-b1-i1 0                 0                     2        1</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#  3 testped1 testped1_g2-b1-s1 0                 0                     1        1</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#  4 testped1 testped1_g2-b1-i1 testped1_g1-b1-s1 testped1_g1-b1-i1     2        1</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#  5 testped1 testped1_g2-b2-s1 0                 0                     1        1</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#  6 testped1 testped1_g2-b2-i1 testped1_g1-b1-s1 testped1_g1-b1-i1     2        1</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#  7 testped1 testped1_g3-b1-i1 testped1_g2-b1-s1 testped1_g2-b1-i1     2        1</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#  8 testped1 testped1_g3-b2-i1 testped1_g2-b2-s1 testped1_g2-b2-i1     1        1</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#  9 testped2 testped2_g1-b1-s1 0                 0                     2        1</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># 10 testped2 testped2_g1-b1-i1 0                 0                     1        1</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># # ℹ 54 more rows</span></span></code></pre></div>
+<p>Family structures imported from “.fam” formated files can then be
+translated to the <code>pedigree</code> structure used by the
+<code>kinship2</code> package.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> The “fam” format may include multiple
+families, and the <code>fam2ped()</code> function will collapse them all
+into a <code>tibble</code> with one row per family:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>peds <span class="ot">&lt;-</span> <span class="fu">fam2ped</span>(fam)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>peds</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># # A tibble: 8 × 3</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#   fid      data             ped       </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#   &lt;chr&gt;    &lt;list&gt;           &lt;list&gt;    </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># 1 testped1 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># 2 testped2 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># 3 testped3 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># 4 testped4 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># 5 testped5 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># 6 testped6 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># 7 testped7 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># 8 testped8 &lt;tibble [8 × 5]&gt; &lt;pedigree&gt;</span></span></code></pre></div>
+<p>In the example above, the resulting <code>tibble</code> is nested by
+family ID. The <code>data</code> column contains the individual family
+information, while the <code>ped</code> column contains the pedigree
+object for that family. You can unnest any particular family:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>peds <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(fid<span class="sc">==</span><span class="st">&quot;testped1&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(<span class="at">cols=</span>data)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># # A tibble: 8 × 7</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#   fid      id                dadid             momid     sex affected ped       </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#   &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;   &lt;int&gt;    &lt;dbl&gt; &lt;list&gt;    </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># 1 testped1 testped1_g1-b1-s1 &lt;NA&gt;              &lt;NA&gt;        1        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># 2 testped1 testped1_g1-b1-i1 &lt;NA&gt;              &lt;NA&gt;        2        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># 3 testped1 testped1_g2-b1-s1 &lt;NA&gt;              &lt;NA&gt;        1        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># 4 testped1 testped1_g2-b1-i1 testped1_g1-b1-s1 testpe…     2        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co"># 5 testped1 testped1_g2-b2-s1 &lt;NA&gt;              &lt;NA&gt;        1        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># 6 testped1 testped1_g2-b2-i1 testped1_g1-b1-s1 testpe…     2        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># 7 testped1 testped1_g3-b1-i1 testped1_g2-b1-s1 testpe…     2        1 &lt;pedigree&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co"># 8 testped1 testped1_g3-b2-i1 testped1_g2-b2-s1 testpe…     1        1 &lt;pedigree&gt;</span></span></code></pre></div>
+<p>You can also look at a single pedigree:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>peds<span class="sc">$</span>ped[[<span class="dv">1</span>]]</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># Pedigree object with 8 subjects</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># Bit size= 4</span></span></code></pre></div>
+<p>Or plot that pedigree:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(peds<span class="sc">$</span>ped[[<span class="dv">1</span>]], <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAMACAIAAAAc45fZAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nOzdd0CU9R/A8e8de28EF+ZAxYFbFPfee2VqWZoNM81+lVqpOUtNzdJUMkfOlNx7ZO6BeyC4FQeyZMi6u+f3B6igoMAdMr7v118l93z4PsfDPe+bqBRFEQAAADJR5/UCAAAA3jQCCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHeO8XgCAQiU4OPjMmTMGH1utWrVy5coZfCwKtMTExODg4AcPHgghLCws3N3dS5UqpVZzxx5ZolIUJa/XAKDw6N2795o1aww+tlevXqtXrzb4WBREN27cWLJkybZt244fP/7Cl2xtbevVq9ejR48ePXrY29vnyfJQUFDKAAwpl+5TcVcNQojg4OAePXqULl16/PjxL9ePECI6OnrHjh2DBw8uW7bs6NGjo6Oj3/wiUVAQQACA/E5RlJ9++snT03PdunVZuXx4ePiUKVOqVKmya9eu3F4bCigCCACQryUmJnbv3v3rr7/O7oa3b99u1arVnDlzcmNVKOh4ETQAIP/SaDTdunXbunVrjicMGzZMCPHZZ58ZblEoDHgECACQf33zzTf61E+KYcOG7dixwyDrQaFBAAEA8qn9+/fPmDHDIKMGDRoUGRlpkFEoHAggAEB+pChKyrNXBnH37t1p06YZahoKAQIIAJAf7dy589y5cwYcOH/+/JiYGAMORIFGAAEA8qPFixcbdmBERMT69esNOxMFFwEEAMh3dDrd7t27DT6Wl0LjGQIIAJDv3L59OywszOBjT548afCZKKAIIABAvnPjxo3cGHv37t3cGIuCiA9CBFAArF27VqVS5fUqUODFxcXpdDr+YjwEjwABKBB69OihSKlq1apnz57N61XkgT179uTGgWRpaUn9IAXHAQAg3ylVqlRujC1WrFhujEVBRAABAPIdDw8PR0dHg4+tVauWwWeigCKAAAD5jpGRUbNmzQw+tmXLlgafiQKKAAIA5EcDBgww7EAHB4du3boZdiYKLgIIAJAftW/fvkKFCgYcOHDgQDs7OwMORIFGAAEA8iO1Wj1r1ixDTXN3dx81apShpqEQIIAAAPlU69athwwZYpBR8+bNc3Z2NsgoFA4EEAAg//rll1+aNGmi55DJkyd37tzZEMtB4UEAAQDyL1NT0y1btrRq1SrHEyZNmsSTX3gZAQQAyNcsLS23bt367bffZndDd3d3f3//0aNH58aqUNARQACA/M7IyGjChAlnz57N+kNBQ4cOPXfuXNeuXXN1YSi4+GOoAAwpl/5kKX8JFUKIqlWr7tix48KFC3/++ee2bdsuX778wgUsLS2rVavWo0ePt99+283NLU8WiYJCpShKXq8BQOFx8eLFS5cuGXysl5dXpUqVDD42//P29l62bFnVqlXzeiH5UWRk5JUrVx4+fJiUlGRtbV20aNEKFSqYmZnl9bpQMPAIEABDqlSpkpylgjfPwcHBx8cnr1eBgorXAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQUCApoft+GT19e4guTzbPQPL+YR6WzX67m25i9PYvmw3b+Nhg3+R1AxM39rez7LYyVq8h+i+jANLd3DRl9LyDkTn8XDg9N89Aov/b1pY9/05I913urxzU/Pv/kg32TV4zUAn7o62l24c7k/QZIjTHv6lgUWdqoDZbW+ENIICAAkkXceyvWX8efJjDgtFz86xJuLBg6sIj1yO0hjotGmSg/kMMvl/5gDZkn9+slQHROdwlPTfPEiXm6Owfl5++HW2og9YgA18/RO3RcfT0L1oUUWdrK7wBBBBQIB05cSNG9+RWwIFj156edZLCr50+fvLinccv3qtMjg65cvrEmaD7sSl3QpXIoDSbPw4LPHQ0OEoXf//Mf3v/O3bhbuxLN8qZThbauPuXAgICHyakO/Pp7mz+4YMu9SvW+/q/7J4SlYTQK6dOXw1PFpqHFw6evBmr5GhgcuT108eOn7sdneZud/aGvHil6blf+dzFg2fuxuseXzt64NSdJyn/pCSEXgk4FhCY9gpIkRh561LAyXPXHsWnHCna0LSbRz84f/DkzThd7K2T/+49cCLwYfyLV1Xmk4Um+vb5k6euhqd/zEUbuPJ/A9rXqtD8p7OJ2dwxXVzIxYCzNx9rlfi7pw+eDUnM2cDER0EBx05cuheX5ncjq0NUVsW8vMsXMVfpuy8wNAIIKJC+Gr/+VvL9bZOHjlkTrBWaOxtHNvBwL1ejbu3KHkXLtR67K/WxHeXhztFNSrmWqFizbo0KxYqU7zn/QoLQXFiaZvOL/03q0GXk6IE1ytZo3LyxT1UP98rv+F2IT/0+mU4Wmtv/fF7P3aFYpVq1vIqX9P3ftgfPTw4qE9viVZr3+6STZzY+bF6JPjGzcxlHt4o1a3iWqNR72tRPW7/rF6TN7kDlydl53SoUK1vDp653KfcK3X8JiFGyt6oMr7Sc71dBMHf4tD3hyVfXjBk6ZdsDnUgIXDaoZtGiFWv51PIqXqxSj5+PRaVch5qbf39Su5jrW5Vq1fYu5+ZWbdCam1oRfzTN5lsDN33Vpt8333Sr7FmnafNGdbyKFa/96dqbT9M508ki/tLi96o6O5aqWrumZ9EyrScfinoeTmozh1I12g0c1LKEUdb3SQnb+33TEo4lKteqVrpEjcHTfxjY+rO1qQdpNgYqUYcmtyhdrEItnzqVSxSr9v7SK0+flsviEG2Q37uthiy/pdVjX5A7FAAFkObylNoWXmMCkhVFST4/1cfKutpHy8+ExsbcPfRbz9Kmti3mXtcqSsKeT0qYlOzldyYsISk6eO0gT2PbLn+F6dJtnrChn61KZeTeZsquq+ERt48sGFDBwrTSN0cTXjlZE/hzQ2uTYu2m7roaFnH70G+9S5uqhGnTX+9o0ywy+q/O5mbt/wzXZWWPHu/8+C3T4p1mHwqJjrq5e2JzV7UwTt3BLA9M2NDPVqU2Kd7+pz3XwyNuH1nQv7yFcZnP9sZma0hmV1rO9ktPVatWPXv2bK5/m6SDI0pbNJx1U6soStyBkRXNnBqM2hgYERd1beekVu7Gbn3WPNQpuojVvRxMvYasuxKVlBhxbkGPYsbug3fEp9tc98ivjZlQmZbpPffQ7Yjwa3undyphYtVgRqDmVZOVhKOjKpuZl3t73qFbEWFXd01p426kEuY91sSnWaP2xswGZg7vbkrIyg7p7q/o6WrhOeDP06ExEVfWj6xtqxamqTuY1YG6R35tzNRqi3J9fz9yJyLs6p5pHUuYmNcYfzopO6tKDhjjZVF7ymWNkp2t8AYQQECBlLZg9n5awtTr62NPb0t1EeveKWJac9JFjS5icQdzs+bzQlLO1NoHAZv89wRGvxxAatu2fnefnhri9g59y8Rt8I74V0xOPjGqoolTjxWhTxsgav2AImo9AkgXsaK7nVXzubdSt9dcnFjTJEcBpLbruPj+0wvE7R36lrFT/w1pC+g1QzK/0nKyX3p78wEUuaaXg7nv9OCnJ2ztnfmtrc1bLXig0wRP8zFz7P13ZMqOJ98+/M8/B24kKC8FkNqt//rUCym6sDW9XUy8Rp9MfsXk+O2D3Iw9PtoV8/QrIX7tbFR6BJD25uzGFk691zz9GSX8N7yMUc4CqOjAzY+f/kPYmt4uJqW/OJimgAiggquQPY4LyEd768SJhyYuquub191J+RclzNxZCb58VaMq36BDY+tPRtT13d+zc8umTZo1advVJqMH3o29mjZye/qEuKVvxxaOC8+duZ1UKrPJydER564b+Y5q66JK3ciuWZv6ZqujcrwXmssnTyeUertu0dRVGJWtV8dFvf91myXeO3s8OEonhBBq54r1ywohjKs0beT6dFmWvh1bOC04deG2tlPFTJ9xeGFIhSxeaYVU8uVjAbH2lRJPrV93NuVfdNE2jrqAy1c1RrWbd/Ae//3AWo8292jfvEmTZo06d7FUZTDDpGazhnapX1A5te7ka7LhzPnHSUmZTU68c+5CpEPzTg2tUweo3Vq0rm6yV4+9OHvyjK7SD3XsU1dhVqNedbO5D1+zlRJ7M+DUrThFCKEyca/i4yiEMKvdrIGtSLsv6y9ejlR8XTPa8QyG1Cud871A7iKAgAJOiXkco+ju7/z916PPb5JdfH3eslaEUZkh60+VX7Zw6T/b5g6fMyrO3LPbjyuXfFLd8oUZKmtbm+cvCFTZ2FqLJ3HxuswnJ91PEsYuNhbPR5i5uNqrch5ASlxsnLCysXr2jdTWtjaZnWKe0YVtG9/v2yNJQghh1vrX8/NNhFBb21o/31BlY2utSk5KfsVrll8csrh71q60QkqJfhyje3Jx47xf0/x0SzeoXsxMJUyrj95zqsafC5dv3Db9o2lfJtp5v/frmnl9y5mkH6EysbG1eP4zMLOxNVVux8XrMp+clJgoLG2snx+DahdXZ31eopocF5sorKyfH08mNjYWqtcFkO7G6i/fmXVFI4RQO739V8BoIVSmNjbmzy9hZmNrKqKTkhUhMjs6Xxhy6ic7PfYDuYkAAgo4tXMRF7WVz4Tti9o9vaHWxEVEJJg6mouEyPsRlrXfn9Bk8ASRHHHhnzF9B/xv1PKu2wa7pp+hvXn1hka4pZzHlOjg4AfC1d3VJNPJFkZP3K2SLl2+oe1SIeXBEeXxnTtRerwzSu3i5qqE3LqrEeVTBiaG3H79m/TVxT7wv/XB8/9P3CiE5ubVm1rhYpy6rOCgB+riHu6veAjnxSGZXmnurw2ywkDtUsTZ2K3D7F0/1n16fkiKCYvSWDkbK/ER96Odmgz9qe1nP4nEhyeWDe/98dDxHTr/1cU03Qgl8cbVO1rhmXKl6+4GXX1iVsLNwTjTyaZxF4qqQ69ciVAaFkl9s9Td2yFaUSLHe2HqWsRROXQrRCucjYUQQom8czf2tcenUZWv/73z9fP9CLsulPgb10J0orT66b4Ex1uVK+H4ijh7YYjQnMrpTiCX8S4woABTFCHUxZu18IrZ4rfmTurbTBLOT2tZssKQTY+V5FMTG5SqNnxXrBBCmDhWbt2ispU2JvqJkmZzIYQQ2hsrf9uY2huxJ2f/slNTrVVTV6PMJ5vXa9PU6syCaVsfpWwUFzDntz0JegSQccXWrTxCNyzZGpbyvveQvxfvyNlbzbXBK37b8ihl05gTs2bvVHzaNXPKeru87kor1BQhjL1atih6c+0fO8NT9liJ/u8bn+I1Rx9KEom7hlcu1XBCQMqDZUVqtW9S1jgxOjpRSbO5EEIITcDiuQcfK0IIoUTsnjH/uFnD1vUtM5+scmzcqo7YO+fnIyk/cyVy7yy/AH0+JNC0VtsWDoFrlhyJEUIIkXRl2bKDr/48w8wkH/9z7uHUZYXvnPb7SasW7X3NX7cVCgIeAQIKJJWZuZnuzu6Fs8vG9h7w2fShazt96OO7pWszT7ObO/5ad7PhzD+6O6lMavTu6zVv6oAmj3u39rKPubh5xQaT1vO7v6UW4vnmXRyEMCpicfQj31ZbO1c3Dd6+asv1cl9s+cjTSKgqZTZZJbqPH+vXeGTvujd7d6lhcWOn/3knnzL63J6Y1ftqxsDNfd5tFLmns1dywJYTmoruRjHG2X7xjcrcNmbtO/VC+nT2Ng7atmrb3epjdw/0yMZdvVdcaYWYyszcTHtl45xfXHv17/XN9Lc39+1ZK6hb5wYeuksblm2O67ZsdFNzoW78Tq/iq37u0ux2z6ZlLcNO+q/Y797n77YOKqF9tnnPtopQmRVN+qen77XubTyTzm1cvSfMZ/Lqt91VQjTMdPJb70/+YmnrKW19LvRpV1G5sGljSIk6Re/psUN27cf92KnRh10b3+3XumTUoW1BppXt1MYm2T5EVVbWIb92rB/Up225pNMbVv0b3XzOD10dpXgssPAr3L/TQKGl9uj9/XddXW/sPnQtVtg3m7b/yNJPa4ibp07fsWw2bnvA+k8qmgohzOuM27l3/ofVtNdOHD0f7tj2h23H1gwspU6/uSKEcc1vd28dXT0x+OJ9hxZf/XXg3x+b2KqEEKpMJwvTSp9vOvLP+PYujy5dfOT2zpI9y4a1b1ytmFnaU4NRkSqNGldxM8nS6ULl2nHeoT0/d3a5dz5YaT5r3ZjqapWtvV2626jXDVQ7V2zU5YfNR5YO8oy5cvmRa/vv/j6y89va6V+987ohmV5pOduvgsG42qCJXzQzO7/7xN0ElXs3vyP7f+tfLj4o4Nwj126zDh5f2ruEkRAqu9a/7N8+/e0ycZePHQ+M8+g9698j8zu5qNJvrghh1Xzmgb8/LBUZGPi4ZNcf1h3e9lV1cyGEUGc2WQjr+hP2HFo+sqHlnfOXY8oPW7dr7getG1VySXu1q8yLV2/UoIJT1k5bRm+9u+ro1u+bmN88f9umj9+aj0trVLZ21tkaaOJetek7s3YfmNOjyKNLV2LK9Pppy7F/Pi6f7iVPrx2isn6rTqOaJdO/Wjx7+4LcoVIUKR7YBZCJxI39XXs//vX+xv72ebkMzdkFn86413n62HauKiGENmhaA+9Z1TZdn9fCLC+Xlee8vb2XLVtWtWrVvF5IFilhf7Qr8bW7/71FbU1ff+nc8+TgjI/9lEG/fdnQSgghko5+VaXJtt5HTv9Qnec9kIpDAcAbocTeCDh1Oy7je1xqh3KexbT7h33ygWrCR/WLJAZvmvHT+Uqf/dZQ7vpB5pTIoKPn7ydlcjy5VCzl/HjrJ0MGi7H9ve1izq+aPP9RwynvVuWUh+c4GgDJqSydPTzMrHL9sXgl8tLuDbszeWeXcbke3308Z6//7Mm/zhu9KlLlUrHJ+B2jhtSgfwoctU0Rj5LOFq+/oJ50D09vXX80k3d2mVSznzxg6T6L6VMW/vw/vxizot5t5+z9un8ZiT7PCa/HU2AAkH8VtKfAgAKDV2ABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEADkX5GRkXFxcXm9CqAQIoAAIP8yNjY2NjbO61UAhRABBAD5l42NjZmZWV6vAiiECCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAMi/njx5otVq83oVQCFEAAFA/vXkyZO4uLi8XgVQCBFAAJB/OTs729ra5vUqgEKIAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdAggAAAgHQIIAABIhwACAADSIYAAAIB0CCAAACAdAggAAEiHAAIAANIhgAAAgHQIIAAAIB0CCAAASIcAAgAA0iGAAACAdFSKouT1GoDC5vTp0/Xq1bO0tMzrhaDAi4mJsbKyUqu5swq9JCUldejQYdWqVXm9kHzEOK8XABRCRkZGZcuWPXDgQF4vBAVeUlKSqalpXq8CBd7s2bOfPHmS16vIXwggIFcYGRk5ODjk9SoAQAghLCwsEhIS8noV+QsPqwIAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOmoFEXJ6zXkuo8++mjNmjUGHzt48OAff/zR4GNRQF26dGnbtm1HjhwJCgoKCQmJjo52d3cvVqyYt7e3r69vx44d7e3t83qNyC/KlCkTGRlp8LFr1qxp0aKFwceiINJoNAcPHty5c+epU6du3Lhx9+5dRVFKlixZrFix2rVrN23atHnz5sbGxnm9zLwkRQB16tRp06ZNBh87YMCAJUuWGHwsChZFUVavXj1z5szjx4+/+pJ9+/YdPXp0pUqV3szCkJ8ZGxtrtVqDj125cmWfPn0MPhYFS0xMzOzZs+fPn3/37t1XXMzV1XXIkCHDhw93dHR8Y2vLV3gKDMi5c+fO+fj4vP3226+tHyHEihUrKleuPGzYsLi4uDewNgASWrlyZYUKFb777rtX148QIjQ0dMKECRUrVly0aJEMD4W8jAACcmjJkiXe3t5ZSZ+05syZU7t27evXr+fSqgDIKTk5efDgwX379r13717WtwoNDf3ggw/69u2bkJCQe2vLnwggICfmzJnz3nvv5Wzby5cvN2zYMDAw0KArAiCvpKSknj17+vn55WzzVatWtWnTJj4+3rCryucIICDb1q9fP2zYMH0m3Lt3r02bNqGhoYZaEgCZffbZZxs2bNBnwv79+/v16yfVc2EEEJA9d+7cGTJkiP5zbt26NXjwYP3nAJDcypUrFyxYoP8cf3//+fPn6z+noCCAgOz54osvDPXIzcaNG/W80wZActHR0V9++aWhpn333XdhYWGGmpbPEUBANly6dGnt2rUGHDh27FgDTgMgm4ULF2brVc+vFhYWNmPGDENNy+cIICAbfv/9d8MOPHv27IkTJww7E4A8DH6jtHjx4tz4kKp8iAACsmHz5s0Gn+nv72/wmQBkEBgYePXqVcPOfPDgweHDhw07M38igICsCgkJuXHjhsHHHjt2zOAzAcjgwIEDuTFWkhslAgjIquDg4NwYGxQUlBtjARR6uXSjdOXKldwYm99I/YfQ9HT06FGDvB26wDl37lzFihVNTEzyeiFv2s2bN3NjbERERG6MhYT8/Pz27duX16t405KTky9fvly1atW8Xkge+O+//3JjbG78pd58iADKOScnp5o1a+b1KvLA+vXr27dv7+rqmtcLedOMjIxyY6zkf5AZBvTWW29JeKMUGhq6ZcuWgQMH5vVC8kBgYGBufKa8JDdKUuxkLilXrtyHH36Y16vIA9OnT+/du3e5cuXyeiFv2rFjx+bNm2fwsc7OzgafCTk1b95cwr8GHxwcvHTpUjlvjUNCQnLjQSBJbpR4DRCQVZ6enrkxVs6H7gHor0KFCrkxVpIbJQIIyCoHB4fceH7B19fX4DMByKBp06a5MbZ+/fq5MTa/IYCAbOjWrZvBZ/bq1cvgMwHIwM3NzeD3oCpXrly5cmXDzsyfCCAgGwYNGmTYgZ06dfLw8DDsTADy+Oyzzww7cOjQoYYdmG8RQEA2uLq6jh492oADf/jhBwNOAyCbHj16GPCp+TJlysjzfjoCCMieMWPGlC9f3iCjRo8e7e3tbZBRAORkZGRkwD8HtmjRIlNTU0NNy+cIICB7LC0t/f399f8YpBYtWowbN84QKwIgtVq1as2fP1//OVOnTm3UqJH+cwoKAgjINi8vr/Xr1+vTQL6+vv7+/hJ+mliQxCkAACAASURBVDaA3PDhhx9OmzZNnwnffPPN119/baj1FAgEEJAT9erV27NnT84+hKN///67d++2sbEx+KoASOvLL79cvny5i4tLDrb9/fffp0yZYvAl5XMEEJBDlStXPnHixFdffZX1TUqWLLlu3bqlS5eam5vn3sIAyKlv376HDx/u0KFD1jdp3LjxpUuX5Py7lgQQkHPW1tY//vjjzZs3v/76azc3t1dc0sfHZ8GCBcHBwbnxSUIAkKJs2bKbNm06ePBgnz59XvEws52dXdeuXffu3fvvv/9WrFjxTa4w/5Dib4G1adMmN+5wN2vWzOAzURB5eHhMnTp1ypQpp0+fPnLkSGBg4MOHD4UQlpaW7u7u3t7eDRo0KF68eF4vE/nIwIEDHz9+bPCxXl5eBp+JgsjX19fX1zchIeHAgQOnTp0KCgqKiYkRQjg4OJQsWbJmzZr169e3tbXN62XmMZWiKHm9BhQwnp6eW7ZskfCPoQLIh4KDg9u3bx8UFJTXC0EBw1NgAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJCOIQNIibt2aPt/V6Jz+L56PTfPQPL+YR6WzX67q0v3jxeWj114/In+05Xos4uHt/MubmdhZu1Wqf2XKy5kuPTEjf3tLLutjH3NUvVeVfKF5WMX6rF9/qNEXtq3/cjN+LzZPAOJ/m9bW/b8OyHdP8YeW/D9iksa/afrwg7PGdysopuNubld8Ro9xm28ltHSlbA/2lq6fbgz6dXDXrMqzfFvKljUmRqozdZWBVHSnePbd58Py+mNip6bv0x7cWINS+9xZ9NdydobG6b8sveRAb5LfLD/mG61Sjlamlu5lGv28fzjYboMLpV86Isylo1m38roa1kekgUp+5WzbfMnznHZP8dlcYju2gxfizJfHEpO/88G25eMGTKAdHf+HtHt42VXta+/aC5snjVKxPYZ30zfcClB30NQF7J8YOvBS0Krfzpn9Tq/L+ve/2NAkz5+N3J2S6H/qlIn5HTzfElzyW9Qt683hObw1lfPzbNGF/L3xFG/7byu90GrDfyle7svNmmbf71g7d9zPixzYXr3JkP+yeE58bWrUjl4Ne/U2NNGla2tCiAleufYbv3mnEp+/UVzYfMsijs+b/SEFQFR+h6pStT24a37zA58692flq9bOrZtsv/Q5h1+PPuaVs6NISlS9ysHW+ZbnOOye47L8hCVVdlGnVpWcUqXJAbbl8zk90+C1mm1KiMj1esv+DrK40s7Nuz8b/vS+avvatvqPU4b/NecLfGt5236c6C7SgjRrqFzWJUPZ/9xZuDEGtm4TvVflYH3q7Az3PH06PSGjbsPbPpz4ZZI4wF6j0s+5vfrEat31m2Y09FeJUSHtnUtG1f7dtbKCZ2HeWTjTkpWV2VUbsBvq7O9FYQQQiharTDIMSSeXP93w7Z/d69csPSypqb+63roP2fFvZrfn135VXljIUS7ZqViq3adM3f/F/Nbmr3RIYbdr8KuUJ/jsj5E5dZ5yurOubQvmTLYI0BJ2we5VRp1Iv7SpJrmpUccTBYi8dr6b7vVLGFnae1S1vedyTvuPH3UN/nW5rE9fcq521nZF63Y6L05xyKVFzbfs66/Q9GBv8x/r7qrhYmJpbNnkyELTj1+FoGZThYJwWu/6V6/vKuNjXuVjt/8c+P5/RZdyP6li9YduGPu4pCdfdY9OvDzwKaV3G3tStR597dds9tZV/r2lEYITdClIFG1RdMiqcet2s23YXnVnVt3M257XcTR2QPqethZWDqWafD+L0fCleyuKqMrTY/9KgA62zaYeT3+wPBS5rWnXNYKJeb80hFtq7jbWNi4VWw2eM6hZ4/LP7m8cmSHmqVdbawdS1Zp+emSC3FCRP+VZvPJBxa0ta48fMG07hUczExMrdwqtxu5KvDZE0yZT1aizy4a1qF2GSdr2+I1e03aff/5T1dzddvCJRuPh1u72GTnetfc2Tq+j6+ni41D6UZDl24a72PdaPYtnVCir1y6a1y7ZWP71OPJuHSD+sWVOzczOZ6093dN6F6tqI2FlWuFlkMXn4tRsrcqzalvK1k+ewosh/uS/50Y5eU+aHv8w4WtzW37bUgUQhOye2q/eqUdrawcPWp1G7Mu6OnTmbqH+6cPaFSxuL2VbZGyPr0m7X6gE5p0m6/d+0UZ6y4/LR/mW9TaxNjc4a16/af/9/zhxUwnC83dHRPfaVy5qJ21S/nmQ5dciH12O6aLOLZqwao9QcLJ2Tgb5z8l+vTCT9tUL2Fv41a1+5Sdi/o7uX+4M0kIzfVLV5JLN21WJvXEorKv38jbKOL27UyecYk7v/jjxmUdLS3sStbuPWlXiEaI7A3J6ErTY78KAs5x2TzHZX2I7tbsRpbPngJ7Y+c1xVASH98/OKaauefnO0MeRSfpHv7zroepY50hs9Zs3vTXpN4Vrcw8h+6K0imK5vykWhY21QbOXrtj18aFn9d3NC7x0a649JvHbOhnZ2JmZlGqwxi/df5Lp/SrYm3k3OGPm1pFUTKfrAvb9H4pE7NSHcb4rfVfOqmPl62lpalZ01/vaNMsM/qvzuZm7f8M12Vln5Ivz2xsZ1Gux6TlGzcs/rZdSWtzMxOvMQHJiqKLuX/t2v2YZ5N14Wt6O5t6jz+neXFGwoZ+tmpbe+cynb5btM5/6ZR3qlir7ZrOvpLugq9bVSZX2ksTsrJT+itXrlxQUFBuf5eouxuHeJj7TDhxPzxOo7nu197F1L3ZF7/7b1n/x+j2HmbWtcadiFcUJf6/4WVNnHw/n79+5w7/OQOrWplW/u5Usi4+zeaxD/zamJuZm1t59Zm01H/dH993KWNu7DFwwyOdoiiZT9be+rOTi5FVpT6Tlviv9RvToZStpYXavMea+DSL1N6Y2cDM4d1NCVnapSdHx3hb2lQbOHPNJv/5Ixq5WpibmTWcdVOrKMlRIdduPHz+E9XemtvcyqL53HTHrqIoiu6RXxtzU1t75yp9pyzzX+v3XefSZkZuPVaEpL3ga1eVHDDGy6L2lMvpDsLs7UtBkBzz6OLPTc1d+q26ExqVoETv/7KyhU2ld6Ys37R59c8f1LQ3Kdpn9X2domhvLWhjZ+7ZY8rKbbu2Lv22VVFjx+4rHunSbR5zcERpYzNzS7cmw+eu+WflrI98HI2s6/94PklRlMwnK7EHv65ibuzWdPhvq/9Z8fOg2g6WluYmVceeSU6zzMTtg1zN6v4U9NJtR0a0d5d1K2JavM3oP9dvXDGldwVbczPjIoN3JCqKEhd649rdqKRnF43bO/Qtk+Kf7kt6cUbSwRGljW3sHIo1Hznv7/UrZg6p66i2qP7d8fjsDMnkSnt5v7KyV3oKCgoqV67cG/hGnOOyeY7L+hDtzVkNLUqPOJj+QMvWvuSA4QJIUTSXp9S2SLnuNGfHeZu591379PdBEzy7sbVF87l3tLqwRW3NzDstjUz5QvL5pV8Nn7bzoS7d5gkb+tmqTLy/P5WYcindvcUd7U0qfHM8+RWTtVdn+JqZ151yMfUa1Fyf08xKZarHwfFkx4fFTCuPCUgdGLfnUw8j45QVpqOLPDmrYzETl46Lbr14vkrdF9MaP5xLnaIN+bOjvXGpz/9LzPqqMr/SXpiQhZ0ygDcTQErSwRGlLVL6IH7vpx6m5T7/Nyb1Swknv61qat9rzWNFc2VqHVPn97elnrVjj8wdPnzukdh0m+se+bUxU1k1nXM99ceTHDitvoWZ789Xta+YnHz8mwomdu0WPj18Ek+PrWai0iOAdGHLu9lbNpp1TZv6v6t7OalNU3YwHc3Df8c2cjIpOXBj2EsHRMq+WLecdzPtvpjWnHgxzS0KAfSU7pFfG4uUPtDemtvcyq7V70+vON2D5d1Tb4oTNva3N60/I/UHo7nuP274OP9rmnSbJx0cUdrIqNTHu1OPFF3U5veLG7sP2hb3ism60KWdbY3Lf3HwSepXQlf1dFYb6xFAyQFjKpmWGLIjNvV/z46rZqJODaB04i4v7edpZlP/p/Mv3lw93ZfSn+2LS7svTu/4P87GkEyvtBf3Kwt7pa83FkCc43J8jnvdkLwJoNx5eEl3b/++QFOflrVVEeHh4eHh4VF2vi28tGdPnteo7LyqeGh3jus/av7GY9ejlMr9f5z5ZUvXlx8pNa7UrUdV05T/Vrn3GNjO6saRo/c0mU+OO3HojPB9792KJikbGZXq/XYDUz32QnP5v4NhJdu0r5I60NK3fXOHFxcad2XdqFZVfb8KqPj9usXvlcz4+jSp0r2HV+oUddGeA9tZ3ztx/E7WX0yW5SutkNJc3rv/vkvjZuUTU37o4bHFGzctGX82IFBjVLRKZafIv//37g+Lt5+6E2Pu8/HMmR/7WL08w9SnV7dSqT8eY8/+7zYUZw4ej818ctK9o0duWLYZ2Kd46kamVXr38tbnNXPJAf8eiq/Svm3qi3pUTq061H/x+FSiziwe2rBKy59CGs/cMKejU8Y/YtP6PbuVTLsvqkvHAqL1WJoMYg/vOaap1qqhVWTKTzrCuF7zWuorJ8/ECGPPql5GJ2Z8MOKXtQcCwzSluo6dObZraaOXRqiLdujVyDrlv1V2rd7rXjziyKErmswnJ589dCyh8jsDfSxSN3Lp+E5rOz1+b3UhB/67atW0Q+PUI9zYq23rlxaaeHvH5G7Vaw3c5vjpyjVfVM74mDUq0amXr2XafYk5eSxQk/UhWb3SCinOcem97hyXpSFvXi4FUOiDR9qYfwZ6OD/lWuu748mxUdEaYVx3/Ja/R9WLWvN193plXZxLNx7069HwDJ6kNnJ1d32+OlO3os4iIixCk+nk5NioxxpTN3fHZz8+lV3JknZ67KAuLDRcOLk8f1m6kbNr2teoK1En5vSqXuPtP6LbzNx/Zvu3DR1VQgjd7TlNzFQpLDr/FS2EEOoiL+6LKiY65hUB9OKQrF5phZTu0cNQTYhfZ/dnP3W3lrOvJkdHReuEdduZ25d84nl94dAOtTycXCq0/nzJs5fEpKEycS3yPCdU9kXdLDUR4Y81mU7WRkc9Fo7ubs9f+WlU3KO4PrfvSeFhj4WTq/OzI8HSxcU6zY2N9uG+ie2q+ny03vydRUcD1n5azUoIITSnv6tsknIkGLkM2p4khFBZuLnZpd8XXczj2FccTxkMkY0u4mFoUuL+Lyu5PPtRl/5ke4IuOipGZ1T+89WbprQz2jH+ncZeRZxK1O07ZXdIBp8GkP42SV2kaBERGRahyXyy5nFUtCr9L39xD3c9DiJd+KNw4ZTmZkjtnOaAEkLEXVo62Me7/U/BNcftOLN/RvtiRkIIEbequ0XqzYlZg5nXdUII9Uv7oop5nHqblKUhqixeaYUU57gsn+OyPuTNy513gamsbKyMin2y8/pvTTPIU/Oynb//q/P3mqjrAfu3Lftp3IguScWvLO1inf5S2tAHj3SiSOqNhebRwwhha2drlPnk2DWOJkkPH0Qowj31+EiOidHn7XMqGzsbJfxRhE6IlFXoIsIin51lnpyc3L7VhJCGE/f6jWjg+vw2TV20/7LzrZ4oQgihtilqLfYJoQt9EKoTTmn3Je1B97KXhgh1xleaXc53rwBRWVlbm3h/cvzk2KoZHLC2Vd+Zuu6dqUnhV47t3eQ3acKgrkZlLv/cIP39GCU59OHzQ0OJCX0Ur7a1tzHKdLLu7hUHEfHgYaIQqfdrlLiYWEXY53gvTGxsLZQrj8J1wjHlSEgIj4h7enwqEbu/bNF5obbrL0d+G1w9zYMExl6fb77YL1ERQqiM7YqZiFVCiX/48LEiUu9SKtGhj+JNnFzsX3E8vTTkSo73oqBSWVlbqa16rQld3dPy5a+qizcfubD5yN9j75w9uHPNzHFjuw92ubh5ULH0l9KG3g/VCa/U32Nd2MMwxcbe1ijzyUl7HR1E0P1QnXh6C6HExsTqc5tkbWujRDwKf3YzpIsIi3j2P8lX5vdq9llAxa82nfu+bck0N5CW7eecC5ysE0IIlaVrCfUlIXSP7ofqhGeafRGOLk7qbAwRJhlfacXzy737XMU5LovnuCwPicj5buRc7hyrRm/51C3yaN+2gKfvtFHCNw6tW/391aFK8pFxDbxa/nRGI4ztS9ft/OnPY7s6RV6+fO+lF4VrLv6z7kLq528oD/2XbI0pXtenhEnmky1r+1ZXHVqy7Irm6UbrV+zS58bGpJJvXdvbO7ddTB2YcHTbvqcdrw3+ffjkS7Wm7Vz7ZdofqhBCGNuX8CyfolzRlLfVJJ/z97/8dFkP1i3eElO2ga/7q6779EO0Wb3SCimTSvVrWwXt3HH16R1M3e0l/arXHbkzTsRvG1bVq6ffLZ0wdSrfsOeXc75qZhJyKfDxSz/3pKNr/7md+qutvb586X5dlXq1bDKfrHbzqVfmyfbFf4c822j1ysP6PHZiUsO3jum5bTtSHxdWIndvPZSY+rXkk9OGzQ3vsHD30g+rv/AUiZlzqdRDwbOMm5VKCCGSDq9d//Sjz7RXly/Zr6rZqG4GT/u9cohkVI516lXQHNq2N+rpofHkwPdNvLvNC9ZqA3/p6FX3630Jwsi6RI02H0ycPKBcQuDFmy+/UeXelnUH41L/J2bf0nW37OrWq2iS+WQTb9865hdWLD0e/2yjlRtC9Pi1NSpVv16xmH1bD6Z+Mpz2yo6d11LnKQ9XfT3q3+KjNm+emC5chBAqm6LlUm9OPEs4mAghhPb25rVHni4res/itbedfRuWN87yEHVWr7RCinNcls5x2Rvy5hn0ESC1Wq0LDzp5+nKRig2GfdVoxRe9uyjfDG5Z3uzGxh+/84vo6t/cRWVsXMUjfNJPnwy3Gtm5kn3MhTVT/o4q+1Gz0kZpNy+tCKEyCpzZvZdq7Ps1TYPX/Th+g9Lst099TIS6YWaT1S79/td3ZrfvO/R88t3A2hbX10/78biloz7Xq23b/31Ro8HEvu/a/DCgUvLxBVM3J9uqLdRqIXT3dmw6kewxwOjIyiVHnl1eZVm+ZXefl8NGpdKcmti1tzL2vWrGV9ZO/WGjaaclH2Xn5STG5TO90goztZFa++DS8bNBZhU6fDmsUpNxnXvFfDWgkYfu4vIJ368XQ3f6WgmzSpXc7s4bO3i0+LRlWcuwE39O3Kmu9UMDR5XQPdvc1FkIodYe/rbje0/G9CqfdGbpxMkHHXquHljeSKgynWxcfcj/2i4cNKztu49G9fZSzv81cfY1R1s9jid10T6jBs9q823Pj1VjunlE7v3l5yNmFiojI7UQmoubtlw1LdMmbteyJWk2cPBu37GaYwa5Erfry47vx4zq6Zl0asmEKUfd393QPzsfFyQRtZFaib1+5uT58l5eg7/pMr//+x3MR33aqar9w72zv50RXGdh+zJGRknepRNGzv38Q5fRfWsV0VzdMuOP4CIdplUxTrt5OUUIlfGDP/t3sRz3aSOHeztmjfMLqzF+RGtrYVQps8kqdZeRQ6a2+LlHJzHukyZOD3f9MnGr4qLPr61p/WGjWvz12Qd9ikz+2Mf08vIfl4bZq9VGaiFE7L8b9sQUbW91Ye2Si883MPJo/HaTUhl8S931uX27WPzwSQPbu9tnjVv0uMGM4U0tROzGLA4xKpXplVaYcY7L1jlOF5KdIXnBkK+oTgiY3qqktalFpVFHkxVdVMDCT1pWdLUys3IpU7fXuI3XUt9dont08OcBvmUcLUzM7Ip61uv5/cbriS9svn9dP1vzDnN2/9q/VjEbC7uS1VoNmXs84ukLwTOdrChPAlePbFe5iJWZhXOFtt9vPz6zsbU+bxFUFF34kZ/f8XnLwcqhXNsfdm0cUdq8zo9XNErS/mEeGbxG0v2j3S+9GyNhQz+HUu//unBYay9XK0vH0rU7fL74XMwLF3rtqjK90tJPyNpO6esNvQtMF7VvdD03CxPrhj8HaRTtg/0z3mtY1snC3MatfKP3pu8NSX3DiebOtnHda5W0NzOxcCzh1XjAT3vvadJvPuPw/DbmTu8u3jmlW+UiVpZOZWp3HL7sQuzT75PpZEX3+NTCj5p6OluYWrpV7fnzwb1jKlnr8zZ4RUm+t3N81+ol7KxcKveac2R5PzvzdovCdMoT/7dtM3iNZJXvTr/0boxHfm2sa4z4Y9agxmWdLK1cPOv1GO1/9YVvz7vAntEEL+rpaWdqWmTQ1kRFibu8+n8dvYvamFs4elTv+L/l56NTfuN00Wf8PmpWwdXKxNSmSOlaHUf+lXp4PN98w94Rpc3rTdiy5JOGpewsbIpWbtJ/6t77z25aMpusKMm3t47rXqO4jZm5fenGn6+9sLSbtT5vg1cUJeb8oiGNPV2sbT0ajfxnz8Ta5mVGHk5SNBcn1jB5+QbevPuquBcHJB0cUdqu27QVo7tUS7l9bTl4zpFwnaJkZ0jmV9oL+5XFvdLHG3sXGOe47J3jsjGk4L8N3nASNvSzNe/49G2EeUZ7c++ihZsuPv3V14Uu7mBt12fti/UinTcUQAaje+TXxtxp4NaXfufesPjArQv/2HX96XlOEzzNx7zkZ/++9AkryIeSDo4obV5/+tWX37/7RmkfHF6xcG3AsxNCzOaBRSxa/H4vt04QBcObCyCD4RyXL+SLR6HyLeXSX1/0/3jav3fikpMiLq39bvoe2859mr3yxRZAZozjj//66YDhv514GJ+cEHrqz+9+O12iR6+6GdzjBjKmMr6zftSAD8Zvvvo4KTn6+vZJk/2TmvZpV0TGl3XBACQ/xxXyZ2xfQ3tpTs8Bi25k/Lo9kzqjt8zxW3bn45Ed3xofqxWmzlW7TFgzs9NLH5MApEg+/EPrz/6JzPj96GYtp/03bvmC0I9HNSo6PEFRWbjXefvXv8c3MH/Di0S+pru3fFCX6acz/vOrxp4frfhr9uqrnw4bUHFOlEYY23u2/nzFgvdKcEcWGeMc90oqRcmPHycTH3bnkeJYwiV/vF9FlxD56LHKzsXenNsZIYTw9PTcsmVLuXLl8nohWaWLC70baeRS3Mkir1cihBBC+yTsUaypo4utab44vJEliZEhDxNti7rZ5Is7jUri49BIjY2Lk2UhfydElgQHB7dv3z4oKCivF5INnOPyg3zxy/wyC+cSJfN6Dc+pzR2KcD+9AFNbuZbMRw/qGlk6u2XwWTTI18wciuWj2ySVmV0Rt7xeBPTAOS4/kCv3AAAABAEEAAAkRAABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAYRs02g0eb0EAHiOGyXkAAGEbIuKioqNjc3rVQCAEELExsZGRUXl9SpQ8BBAyDZnZ2dra+u8XgUACCGEtbW1s7NzXq8CBQ8BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDACHbHjx4EBsbm9erAAAhhIiNjX3w4EFerwIFDwGEbHNzc7O2ts7rVQCAEEJYW1u7ubnl9SpQ8BBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAZ50kGQAAGkdJREFUAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAYRse/DgQURERF6vAgCEECIiIuLBgwd5vQoUPAQQss3MzMzS0jKvVwEAQghhaWlpZmaW16tAwUMAIdscHBzMzc3zehUAIIQQ5ubmDg4Oeb0KFDwEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkA4BBAAApEMAAQAA6RBAAABAOgQQAACQDgEEAACkQwABAADpEEAAAEA6BBAAAJAOAQQAAKRDAAEAAOkQQAAAQDoEEAAAkI5xXi8ABcOTJ08OHz586dKle/fuhYaGTpo0qXz58hUqVKhbt27RokXzenUACpsbN25MnTo1K5eMjo4ODQ0dMmRIVi5sY2Mzbdo0lUql3+pQGKgURcnrNSD/0ul0mzdvnj9//oEDB2JiYjK8TM2aNfv16zdo0CBra+s3vDwAhdX69eu7du2aG5MTExNNTU1zYzIKFp4CQ6b27dtXvXr1zp07b926NbP6EUIEBASMGDGiTJkyv/zyi06ne5MrBAAgZwggZCA5OXnkyJHNmjU7d+5cFjcJDQ39/PPPGzdu/ODBg1xdGwAA+iOA8KL/t3fncTWlDxjA37t0b7d935dbUVq0RylCWhDJbowZY2xjmWEMw48ZZgbDMIYxZjFmt2QLZU1CMrZQkpSkUpSaKK13Oe/vjyJXZejeppnPeb5/1n2f3hf3eO55zznV1dVFRUWtW7euHWNTUlL8/f1v3ryp8lkBAACoEAoQKGAYZsyYMUeOHGl3QkFBQURERFFRkQpnBQAAoFooQKBg+fLl8fHxSoYUFBSMGzdOLperZEoAAAAqhwIEzbKyspYuXaqSqJSUlI0bN6okCgAAQOVQgKDZokWLVJi2atWq6upqFQYCAACoCgoQNLlz586BAwdUGFhaWrp161YVBgIAAKgKChA0iY2NVXlmTEyMyjMBAACUhwIETRITE1WemZqaKpFIVB4LAACgJBQgaJKVlaXyzJqaGjwTCAAA/oVQgKBJcXFxR8Q+ePCgI2IBAACUgQIETTro13g1NDR0RCwAAIAyUICgiY6OTkfE6uvrd0QsAACAMlCAoImDg0NHxHbp0qUjYgEAAJSBAgRNAgICVJ4pFotNTExUHgsAAKAkFCBoMmjQIJVnDhs2TOWZAAAAykMBgiZhYWFisVi1mW+++aZqAwEAAFQCBQia8Hi8hQsXqjAwOjra09NThYEAAACqggIEzaZMmeLn56eSKGNj47Vr16okCgAAQOVQgKAZl8uNiYkxNTVVPmrt2rX29vbK5wAAAHQEFCBQYG9vv2vXLiVv3frss8/eeOMNVU0JAABA5VCA4Hl9+vTZv3+/paVl+4Zv3LhxyZIlqp0SAACAaqEAQSsCAgIuX748ZMiQVxrl5OSUkpIya9asDpoVAACAqqAAQetMTU3j4uISEhL69ev3ty8Wi8WbNm1KT08PDAz8B+YGAACgJA6ltLPnAP922dnZ8fHxSUlJWVlZhYWFjb821dTU1NHR0d/ff8iQIYGBgVwuyjQAqExiYmJoaGhHJMtkMh6P1xHJ8N+CAgSvjGEYSimOIADQoSorKxs/bqmQhoaGUChUbSb8R6EAAQAAAOtg2wIAAABYBwUIAAAAWAcFCAAAAFgHBQgAAABYBwUIAAAAWIe3bNmyzp4DdD5adubHDUceO3qLtTjNX2UkNbVyvoDHaXvgS2Iqs0/sjtlz+GRqbqXIys5Ms7Vb6Jm7CRs3nSHuHlbqL/qJfzOrhmsxq3+5ZRrgbMRtMUogwK37AP8J8pt7V2/ONAxwNX72jSyre9zAEaqp4JN7w72LcTE7DySczSiWGYpt9AWtHVBqr25bs73Qsqejfus/kVbnJe/bufdg4oWbFRo2Xcw0WnsZU5z47cYkqauXjYbCz1DdWqC9KHQC5uH+2YFhK85LOmV4K2TXP/MSuS9Nkz77xUd7x5kFfJEjUza8IeuHoVZqfD17n15+jkZCnkHA0jOPmJavk6TMtRf1Xp8vf2Ha383q4e9D1HVeP1Df2qh2TR+ABaRp66ICp+y418ob8x8Y3or6vWM1RSN31T37Ndn1z7yN34yvb2vMy2LKj8/z0uaKzN38AzystXlC+7F/5LVySGHKtkSITKcca2g1pSH7p5FiIUdg6Ojj7WAg4Bv5Lzha2sofgPTCh07qfp9nKf4AVa0FlIDy2Tlk5beupOdXtvcZTEoOfwm0Lv/A4mX7K5R/CBn9K/ajhcf0Zx7LvZV69uLN3KQF4qurP9xyW95Bs9KJ/Pri2RV9Ba82CoDdaPXdjCs3SyXtPKgoOfxlyCoub1zwTbpMBUnpG+ZuLAr+Ni0v49yfabkZP0fW7pm//FjtK4XQ0pj578epvR57uyQ79fKt2ynLXLLWTfvkZF2LV/Ld3tt/cdsku2dOP6tuLaAMfmdPgI3undi0MT5XVlO2dfmq6vHzhzvxCPMo63jc8WulxMg5eEiEh9HTvxemMvvU0TPXCquE5s5BA0O7G/KZeye+bR4+bqzW8R2VITO9i7fHpJRyDcVeYVFhznrNxbbNZCKvyEpOOpOWLzXrETnYoHl6TNEfb4TOi80pr2OoWs9XWBetKbiQmHg+V2rTb8RgrbMb4vkj50Tay9NOn611mzU12JBLCOHo9hw/3GXtF2k3ZKRL6/tRtDovKe5garHcyC00KsLNkPdqs5IVX4w/qDbC2UaHp8RaAFgl5vNfzj+U3Tu2frnGiBmTg4w4pL74wqGDKbnVmmK/8MjedppPd28a7l1KSLyU80Cmb+fdf2CQWIM0ZMSsbh4+0adg20XLN4ZrJf9+MKtO08K595BIf0v15p/VZjKpvXvp5KnzWWUipwHR/Z+ZnfTs0j7jNlwuqpRSjv6rLEtWnnky4dS1Mm3PyGjP0l2bc9xmvNlT+37KmVsaYZ9NcFQnhBCB7ajx/WbHZ1wrlA/q1voxSVp29fC+pOxKkW1AZFSQjYgQQupSDifV+S5bNNSKTwjh6Pl9sGTspsEnEjJk/Xso/r/KVGYlxed5TOtiIuQosRboAJ19CoqN8vctndTXhi9yjpw65+c0KX18aU2YuZq6kaOPr4upiKfrO/doiZxSSqU5P0ZZCYTG3XoG9uhqoMY3j/rptkyuMPzSqbn2QrfeAQZ8TQsXDycTEVdgFfVDVtMp2zaTaXXqFyEmfJ6GubOHk7FI2zW8r1j4ZAustuBSUmJi4tFVg/QEPV92C0xeHDu5m4ZAz87T28lYyyYs0ler8dQxU3bjTHL6vacnkWtOzLAVOH14UdoiQpIy117oMjjaTUfb0tXTyUSdyzcNXXelpvG7Lzurx9ujRc1bYIqjXmolAOzz7cxh7jp888DxMz4/cl8uuxs71U2Lr23t7ucp1lUT2Az7LqOWUkqZihPzvbR52jZevQLcLTW5mh4LTlfSugvPDD+csTlCw9I/0EEoMHBw726ry+fq+HxwvKxxb6jNZCq/u3eyiyZXoG/v7majo24xIMJb+GQLjCnPPH0iMfH41nfc1PRfetuo5vKaEGO+hpmLj7u1joHnkJAnO+w1BanJ5249fLJbJS/8pp+61tDfylpsXzFlWyLU9fsMDzXXMOzi7majw+dquk4/cE9OKVORuPKtyZsuNV+HUJ843ULguuRKiyOb9PJiF9HTLbD2rQU6BApQp3h2a7nh4v/chEbh69IfM5TS2ptbhluqWU6Mq2Co5OQsa0GXmScqGUqp/P4fww0F7kvTpQrDJSlz7XkcNeep8UUySmlD3s4JDmraod/ly1+ULE3/1Fuo7jbjULGMUlqf89soax7hP3cNUMPRySbClyxATMW+CWZCl5nHHsgpZaoufRqozeEq7p3LS87+vn7lwjd6Weg5T9p9t5ULfRrXInCdcfhe41piJjjwRb3WZj87g7+dlWIBUhz1EisBYKVnrsBj7v8RbSh0mX6wSEoplZedWuCjoeG/+oaMyou+C1HXGrDpTuMnpUuL3dV0Ru+qUhjOlG2JEBKu0YAvrz6mlDIPz33aW49vN/tk7YuSmfLd40z4pgM3pD2mlDJ/JS/qocUh6orXAMnvfBUkfNnSIMv83E9kFP51Zi2lVFq4e4IdjwgULzGsy4rftGbZrMhuemb9V1183DKjaS3G4evTqymlzMM/P+mtx7eYdKiqxUuld36OMlFzmJNc2/JbCgWoPWuBDoJrgDqb9PzWrTkOU1fMctfiEEJEThNXzvYqP7TvXAOhMqmUymsrq2WEEK7ZuK2375+e79Jy15KjFb7g08GWPEKIwG7kqoUh9Myug/eYtpNlmXt3X9cZ/snygRY8Qoiw6+sr3+spaJH7CqoTd8Q9Cpq9aIAxlxCOtu9784YaPndTBfMg9cD2HTsPXa00cepqqNZGEEdn0MJlEeaNaxm1auEAXmrswXxcvQPwT6H3D/x2VDLwfysGWfIJIVyj4CUfj9S8euBwPkPkUhmlkqrKOkoIEfl+fLbkzpahWi0z+F3f+myWpxYhhKPnP3/lW+Ki2F3nJC9Ifpy48+BD91lrZnpoEUI4Br0XLR1tpsx/T7LM3THXTMYunOIiIoTwraMXTfZ8/qjTkJu0Y3tM7Ok8gZ2zpWZbP43fbfLyGe6ahBCOXsCClW+Jy+L3ptQ/+4r6O4eWRfaZnmA8bdPiIJESk4Z/GK4B6mS07EZmKVOfuvn92U8aiDy3Ql5VVPSICgKnze8bt3CEwyHXXv369QuJiB4Z7trK3xjP1tPjad3gmvoHdqU/5uTJ2k6WSXLzOd2n99R9OsjW18eMd7rdq5DnZ+XUm/R2NnlyDNHs5mLLS1R4Db/7u3suvEsa7u6bNWBs9NsmN+ImGWft+mJPlowQQng24bPGE0J4Yi8PA4W1cH7IK5QThzaPhdJMhZCJbu1eBQAQIsu5ni1VM437+N3zTe9E+tdNKi8pLJZzg0bMmfjDhMW+Vpt9gvv17Rs6dFRUL4NW7h8XuHq7Pf1Ipe4T5Cv8Nje3QsptK1lSfPuOxMS/V9en1+BoefdwVdve/lVIb93IJV3fcXrye995dq7dRJxChdfoRq47E7mOqbyydsSASdEi+2tr/B+e/OHH5AcMIYSj4fXa3F6EEHU3b5en1alxLQX5FZRYcAghspLk9e9N+2TvPdsxa09unNnTgEMIU6IQ8v6g9q8COhYKUCejUomU8rQMTIyaL082en1JoI2HOiEir/eP3RqeEr//SGJS0pZ53366NHx94v4ZLU8CKRyBeFwuYeTyFyWXcp87ZnF0dLWVeNoPlcvkird/cHlNz+mhVXeuZFYau3vaaBJCCBFaD313vMtv609fkU4KrSrOvnlTSgghfOonIbrPL4XwuFzC473w4T3McyEAoAwqlUiJup6JkZHRk3ej0aBZH2l6W3IJ12LY91fzZhw/EH/sRFL8qolrljrO3nPyq3DDFyZyuFwOYeTMC5I5XC5RePdztHV1lHkAGZXJGcJ5JpHD5TZ9ipKW3kjN43bt2a3xUWFcXe+Z00OXjz+TUiD3F5Tdyb55V04I4eiY17RyTxuHy+UQbuMxqebq12OGzj+lNWxZwvF3+1s9bXz1fxcC/xIoQJ2Mayy21SKcXlM+mm3T+PakVVmJCbeN7HXJX2nxCQUWA4aOndN77BwiL9070ee1r3+/OnWVn2KGvCDtWgX1MuEQQggtv3j+FhGPF6sZP24rWU2jqz1N+PNi1TvReo2D/kq7WtCe+9Kb8KzsbfkPbt4sp8HmHEIIqcvJypcRD0IIcy9met8vXWOLfh3cdB8IbaivJ3w1PocIA+b+HtCcIj1LiPxO2rWHtHvj8ZGWXTh3i9PlbYcXNaDnQkh1+5cBAIRnY2/D4zgM/XBpaNN2jrz4fNy5BlcrnvTO6b0XGL/oQZPdB01eTGozVoT4rth0eFn4BE3FDEnm1UzJ2KZ9dUn6uSv1uoF2Bvw2kwUmXeyFZRfO5cr7uTS+2xuuXb4uI+7tXoWarb0V3X0jR0LMhIQQIi/IyqmhAkIIkZ1fOXD07cXXU+Y/OeEkbWiQE76aGocrHv3F1tFPQ2h5KiH1mWlZ0pE+jSeBGtL+vNxgEuqoz6GVCR+MmH/ZbfWZXe95KXx8fC6EyK60exXQsXANUKehDMMQQjSCR0cZntvwcWyhhBBC5A+OLxk1dMa22zxC6/5cP2nMjO/Smx5PIa2tlRAt7aZHNTcNJ4QQWn3si0+OlcgJIdLC/f9beVTuP3KoLbftZJ5z9Ai3yr3LPk4okRNCZEVxi1clKPNBhWM4cGyEZvI3q0/+RQkh1Wmb1u4ra8zjOYSE2Fcd+GpTRg0hhJD6vB1r/8jVC4no0eplQLTq8OpPEx8whBBpQeyilcc4/ccNMcc/U4CO13hQ4XWJGun9cOfydRcbnzRWd+O7KUNfW3G6mkdo/q4PJrz+UVxJ47GHqaupI+raWvxnhxNCCJHd+mXp9xm1hBBalbpu0ZZcs+jRQeovSNbsPypSL33jgu+v1xBC6OMrG5b8lKvMY3LUvEePdry/44tfshsIIfJ78as2p0obv6XuHxYsurxl7ZESGSGEMBVn136dKHcJC7Fu9UAjy9ry8ebMOkIIrbz05aItebajxvoLaOme9X+UBi/78V0vZU6eQ+fq7KuwWap633h9nqF7xLgvz0mYkiNzvHW46sZOPYN6OOip6bjPjC9hKKVM+dHZrhpcdZNuPYP7+Nhq87Q93j1cyigMTz45117gEBrlZaBr6+HrZqHJU7MY/E1G460FbSZTWn1pdX9jPl/b2t3P3UrHuPeCWX01lbgLjFJZ4d6p3bWFho49/N0sbEPnvOUjtJ51UkIpZSpOLPTT46kbO/r26uFipsHVdn9n391WUiUpc+1Fjn6e+gJdsaevm4UmT91uzK+3FJ93jbvAADqA7MYKX4FIHBQ9b1ehvC5j0xBrAV/b2iMwsLu5SGgxcH16LaWUSm58E27C4+nYeAYF93I2EQosBjUebZqH77yyOUJdq8fQcFttk24+3l0MBFytJwcuSttMpvK7eyZ10+AKjZx8fByNtLuOnTeuq5YSd4FR+vjimjALgZa1p7+PvbnH27MjjdRDvrvHUEol2T+NEAt5OtYe/gFednpqAsuIdanVLROYsi0RInNPXxt1kYmzr7eDvoCnH7DkdAVDacOJGZY8NR1zsYIu4esyWxyacBfYvxaHUuxQdgb5gws7tycVcL3Gzoyw4xFJyeXD8aezH6qZdusVMdDH7OnZkZr8MwePXLj9iGtg5eQ3YICPuVBx+AjPhIHhF2ZkHBmWvy/+yl+aDj7BIb0dn3kQYpvJRFaefuTAicxynqXfkOFBdYe+PGMyaWpf06dD5bfjv4p50OudSa1e5dgK+jj31MGEKyUanlHD9X7uFXRozKXUj9x4hBAiKU1LOJx8o6RWaOYWPCjc07S10z/M3YRvtleHvRdUdyzuZHa1vlOPvv0D7J77ePW3s5Jc37X2oNqI+dFOvBajFr/d66VWAsA+NTlHtu6/WmUZNvk1X30OrbqVFH/scpFE19YrJLJvl6e/JFBWfu1Y/MmM+w2aZnbde4f36arDVRgeOqzuY/eF5nsLV5kdiU3Kk5m5BvTv72PR/CDENpMJqclPjjt0Pr9Wt9uA4ZHm17f8Uh48f1TzNY/00YVfN53WHz1vWNeX/KV+0tIrRw4l59Rb9R81IHuaxTTBH/djRmgSQgh9nJd8OOHynYeMrp1f2OA+Dq2ex6m9um1Dqu3kMRbX4w+n3udaufcO6dfdRI0QIrm+a83erOfPUXFNg6dM7fvc7WvM/aTvf8nzmPZ24DO3xr76WkD1UID+46Rn3+824MKM62fmtX2f1D9AfnNdRPh2n61nVvUWEUKk15cH+H3ncyD3hzDcFArAJrT8p0HWH5rH3vt5oFKP1lBWzcHpXrPLFqbsnmTJJYRW7B3vPKHof5mn3rPDjjo0wUXQ8FLoowu/fnO0sPULpblmfadET/D5ctrYAcWjg204Rcm79xSHbNjRH+0HADqG/Hb8V9uutHHtIt911KwJo/QHvh8adWmIu+7j6wd3nDB5J26iGO0HmqEA/cdxTXqMmGDo1uGX4XEExl09PA1afyIhV9dMQxy8+1r32N9j/8wpk1lFrTn1+ogeZvjXBcA2HKFj6IRxepYd3jQ42tZunkxD6wWIZ6mn7bvi7LX+27YlpN2tEvnM3rHmtXBHXK8Mz8IWGAAAALAOzgcCAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA66AAAQAAAOugAAEAAADroAABAAAA6/wfH76OBK4sCLoAAAAASUVORK5CYII=" style="display: block; margin: auto;" /></p>
+<p>The <code>plot_pedigree()</code> function from <code>skater</code>
+will iterate over a list of pedigree objects, writing a multi-page PDF,
+with each page containing a pedigree from family:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">plot_pedigree</span>(peds<span class="sc">$</span>ped, <span class="at">file=</span><span class="st">&quot;3gens.ped.pdf&quot;</span>)</span></code></pre></div>
+<p>The <code>ped2kinpair()</code> function takes a pedigree object and
+produces a pairwise list of relationships between all individuals in the
+data with the expected kinship coefficients for each pair.</p>
+<p>The function can be run on a single family:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ped2kinpair</span>(peds<span class="sc">$</span>ped[[<span class="dv">1</span>]])</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># # A tibble: 36 × 3</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#    id1               id2                   k</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#    &lt;chr&gt;             &lt;chr&gt;             &lt;dbl&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#  1 testped1_g1-b1-s1 testped1_g1-b1-s1 0.5  </span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#  2 testped1_g1-b1-i1 testped1_g1-b1-s1 0    </span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#  3 testped1_g1-b1-s1 testped1_g2-b1-s1 0    </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#  4 testped1_g1-b1-s1 testped1_g2-b1-i1 0.25 </span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#  5 testped1_g1-b1-s1 testped1_g2-b2-s1 0    </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#  6 testped1_g1-b1-s1 testped1_g2-b2-i1 0.25 </span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#  7 testped1_g1-b1-s1 testped1_g3-b1-i1 0.125</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#  8 testped1_g1-b1-s1 testped1_g3-b2-i1 0.125</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#  9 testped1_g1-b1-i1 testped1_g1-b1-i1 0.5  </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co"># 10 testped1_g1-b1-i1 testped1_g2-b1-s1 0    </span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co"># # ℹ 26 more rows</span></span></code></pre></div>
+<p>Or mapped over all families in the pedigree</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>kinpairs <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  peds <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">pairs=</span>purrr<span class="sc">::</span><span class="fu">map</span>(ped, ped2kinpair)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(fid, pairs) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(<span class="at">cols=</span>pairs)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>kinpairs</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># # A tibble: 288 × 4</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#    fid      id1               id2                   k</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;             &lt;dbl&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#  1 testped1 testped1_g1-b1-s1 testped1_g1-b1-s1 0.5  </span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#  2 testped1 testped1_g1-b1-i1 testped1_g1-b1-s1 0    </span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#  3 testped1 testped1_g1-b1-s1 testped1_g2-b1-s1 0    </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#  4 testped1 testped1_g1-b1-s1 testped1_g2-b1-i1 0.25 </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#  5 testped1 testped1_g1-b1-s1 testped1_g2-b2-s1 0    </span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#  6 testped1 testped1_g1-b1-s1 testped1_g2-b2-i1 0.25 </span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#  7 testped1 testped1_g1-b1-s1 testped1_g3-b1-i1 0.125</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#  8 testped1 testped1_g1-b1-s1 testped1_g3-b2-i1 0.125</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#  9 testped1 testped1_g1-b1-i1 testped1_g1-b1-i1 0.5  </span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co"># 10 testped1 testped1_g1-b1-i1 testped1_g2-b1-s1 0    </span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co"># # ℹ 278 more rows</span></span></code></pre></div>
+<p>Note that this maps <code>ped2kinpair()</code> over all
+<code>ped</code> objects in the input <code>tibble</code>, and that
+relationships are not shown for between-family relationships (which
+should all be zero).</p>
+</div>
+<div id="degree-inference" class="section level2">
+<h2>Degree Inference</h2>
+<p>The <code>skater</code> package includes functions to translate
+kinship coefficients to relationship degrees. The kinship coefficients
+could come from <code>ped2kinpair()</code> or other kinship estimation
+software.</p>
+<p>The <code>dibble()</code> function creates a <strong>d</strong>egree
+<strong>i</strong>nference <code>tibble</code>, with degrees up to the
+specified <code>max_degree</code> (default=3), expected kinship
+coefficient, and lower (<code>l</code>) and upper (<code>u</code>)
+inference ranges as defined in the KING paper.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> Degree 0 corresponds
+to self / identity / monozygotic twins, with an expected kinship
+coefficient of 0.5, with inference range &gt;=0.354. Anything beyond the
+maximum degree resolution is considered unrelated (degree
+<code>NA</code>), with expected kinship coefficient of 0.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">dibble</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># # A tibble: 5 × 4</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#   degree      k       l      u</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#    &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># 1      0 0.5     0.354  1     </span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># 2      1 0.25    0.177  0.354 </span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># 3      2 0.125   0.0884 0.177 </span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># 4      3 0.0625  0.0442 0.0884</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># 5     NA 0      -1      0.0442</span></span></code></pre></div>
+<p>The degree inference <code>max_degree</code> default is 3. Change
+this argument to allow more granular degree inference ranges:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">dibble</span>(<span class="at">max_degree =</span> <span class="dv">5</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># # A tibble: 7 × 4</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#   degree      k       l      u</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#    &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># 1      0 0.5     0.354  1     </span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># 2      1 0.25    0.177  0.354 </span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># 3      2 0.125   0.0884 0.177 </span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># 4      3 0.0625  0.0442 0.0884</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co"># 5      4 0.0312  0.0221 0.0442</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># 6      5 0.0156  0.0110 0.0221</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co"># 7     NA 0      -1      0.0110</span></span></code></pre></div>
+<p>Note that the distance between relationship degrees becomes smaller
+as the relationship degree becomes more distant. The
+<code>dibble()</code> function will throw a warning with
+<code>max_degree</code> &gt;=10, and will stop with an error at
+&gt;=12.</p>
+<p>The <code>kin2degree()</code> function infers the relationship degree
+given a kinship coefficient and a <code>max_degree</code> up to which
+anything more distant is treated as unrelated. Example first degree
+relative:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">kin2degree</span>(.<span class="dv">25</span>, <span class="at">max_degree=</span><span class="dv">3</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co"># [1] 1</span></span></code></pre></div>
+<p>Example 4th degree relative, but using the default max_degree
+resolution of 3:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">kin2degree</span>(.<span class="dv">0312</span>, <span class="at">max_degree=</span><span class="dv">3</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># [1] NA</span></span></code></pre></div>
+<p>Example 4th degree relative, but increasing the degree
+resolution:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">kin2degree</span>(.<span class="dv">0312</span>, <span class="at">max_degree=</span><span class="dv">5</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co"># [1] 4</span></span></code></pre></div>
+<p>The <code>kin2degree()</code> function is vectorized over values of
+<code>k</code>, so it can be used inside of a <code>mutate</code> on a
+<code>tibble</code> of kinship coefficients:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Get two pairs from each type of relationship we have in kinpairs:</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>kinpairs_subset <span class="ot">&lt;-</span> </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  kinpairs <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(k) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>kinpairs_subset</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># # A tibble: 10 × 4</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co"># # Groups:   k [5]</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#    fid      id1               id2                    k</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;              &lt;dbl&gt;</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#  1 testped1 testped1_g1-b1-i1 testped1_g1-b1-s1 0     </span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#  2 testped1 testped1_g1-b1-s1 testped1_g2-b1-s1 0     </span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#  3 testped1 testped1_g3-b1-i1 testped1_g3-b2-i1 0.0625</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#  4 testped2 testped2_g3-b1-i1 testped2_g3-b2-i1 0.0625</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co">#  5 testped1 testped1_g1-b1-s1 testped1_g3-b1-i1 0.125 </span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co">#  6 testped1 testped1_g1-b1-s1 testped1_g3-b2-i1 0.125 </span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co">#  7 testped1 testped1_g1-b1-s1 testped1_g2-b1-i1 0.25  </span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co">#  8 testped1 testped1_g1-b1-s1 testped1_g2-b2-i1 0.25  </span></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="co">#  9 testped1 testped1_g1-b1-s1 testped1_g1-b1-s1 0.5   </span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a><span class="co"># 10 testped1 testped1_g1-b1-i1 testped1_g1-b1-i1 0.5</span></span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a><span class="co"># Infer degree out to third degree relatives:</span></span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>kinpairs_subset <span class="sc">%&gt;%</span> </span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">degree=</span><span class="fu">kin2degree</span>(k, <span class="at">max_degree=</span><span class="dv">3</span>))</span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a><span class="co"># # A tibble: 10 × 5</span></span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a><span class="co"># # Groups:   k [5]</span></span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a><span class="co">#    fid      id1               id2                    k degree</span></span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a><span class="co">#    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;              &lt;dbl&gt;  &lt;int&gt;</span></span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a><span class="co">#  1 testped1 testped1_g1-b1-i1 testped1_g1-b1-s1 0          NA</span></span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a><span class="co">#  2 testped1 testped1_g1-b1-s1 testped1_g2-b1-s1 0          NA</span></span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a><span class="co">#  3 testped1 testped1_g3-b1-i1 testped1_g3-b2-i1 0.0625      3</span></span>
+<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a><span class="co">#  4 testped2 testped2_g3-b1-i1 testped2_g3-b2-i1 0.0625      3</span></span>
+<span id="cb15-33"><a href="#cb15-33" tabindex="-1"></a><span class="co">#  5 testped1 testped1_g1-b1-s1 testped1_g3-b1-i1 0.125       2</span></span>
+<span id="cb15-34"><a href="#cb15-34" tabindex="-1"></a><span class="co">#  6 testped1 testped1_g1-b1-s1 testped1_g3-b2-i1 0.125       2</span></span>
+<span id="cb15-35"><a href="#cb15-35" tabindex="-1"></a><span class="co">#  7 testped1 testped1_g1-b1-s1 testped1_g2-b1-i1 0.25        1</span></span>
+<span id="cb15-36"><a href="#cb15-36" tabindex="-1"></a><span class="co">#  8 testped1 testped1_g1-b1-s1 testped1_g2-b2-i1 0.25        1</span></span>
+<span id="cb15-37"><a href="#cb15-37" tabindex="-1"></a><span class="co">#  9 testped1 testped1_g1-b1-s1 testped1_g1-b1-s1 0.5         0</span></span>
+<span id="cb15-38"><a href="#cb15-38" tabindex="-1"></a><span class="co"># 10 testped1 testped1_g1-b1-i1 testped1_g1-b1-i1 0.5         0</span></span></code></pre></div>
+</div>
+<div id="benchmarking-degree-classification" class="section level2">
+<h2>Benchmarking Degree Classification</h2>
+<p>Once estimated kinship is converted to degree, it may be of interest
+to compare the inferred degree to truth. When aggregated over many
+relationships and inferences, this method can help benchmark performance
+of a particular kinship analysis method.</p>
+<p>The <code>skater</code> package adapts functionality from the
+<code>confusionMatrix</code> package<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> in the <code>confusion_matrix()</code>
+function.</p>
+<p>The <code>confusion_matrix()</code> function on its own outputs a
+list with three objects:</p>
+<ol style="list-style-type: decimal">
+<li>A <code>tibble</code> with calculated accuracy, lower and upper
+bounds, the guessing rate and p-value of the accuracy vs. the guessing
+rate.</li>
+<li>A <code>tibble</code> with the following statistics (for each
+class):
+<ul>
+<li>Sensitivity = A/(A+C)</li>
+<li>Specificity = D/(B+D)</li>
+<li>Prevalence = (A+C)/(A+B+C+D)</li>
+<li>PPV = (sensitivity * prevalence)/((sensitivity * prevalence) +
+((1-specificity) * (1-prevalence)))</li>
+<li>NPV = (specificity * (1-prevalence))/(((1-sensitivity) * prevalence)
++ ((specificity) * (1-prevalence)))</li>
+<li>Detection Rate = A/(A+B+C+D)</li>
+<li>Detection Prevalence = (A+B)/(A+B+C+D)</li>
+<li>Balanced Accuracy = (sensitivity+specificity)/2</li>
+<li>Precision = A/(A+B)</li>
+<li>Recall = A/(A+C)</li>
+<li>F1 = harmonic mean of precision and recall</li>
+<li>False Discovery Rate = 1 - PPV</li>
+<li>False Omission Rate = 1 - NPV</li>
+<li>False Positive Rate = 1 - Specificity</li>
+<li>False Negative Rate = 1 - Sensitivity</li>
+</ul></li>
+<li>A <code>matrix</code> with the contingency table object itself.</li>
+<li>A <code>vector</code> with the reciprocal RMSE (R-RMSE). The R-RMSE
+is calculated as
+<code>sqrt(mean((1/(Target+.5)-1/(Predicted+.5))^2)))</code>, and is a
+superior measure to classification accuracy when benchmarking
+relationship degree estimation. Taking the reciprocal of the target and
+predicted degree results in larger penalties for more egregious
+misclassifications (e.g., classifying a first-degree relative pair as
+second degree) than misclassifications at more distant relationships
+(e.g., misclassifying a fourth-degree relative pair as fifth-degree).
+The +0.5 adjustment prevents division-by-zero when a 0th-degree
+(identical) relative pair is introduced.</li>
+</ol>
+<p>To illustrate the usage, first take the <code>kinpairs</code> data
+from above and randomly flip ~20% of the true relationship degrees.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Function to randomly flip levels of a factor (at 20%, by default)</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>randomflip <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">p=</span>.<span class="dv">2</span>) <span class="fu">ifelse</span>(<span class="fu">runif</span>(<span class="fu">length</span>(x))<span class="sc">&lt;</span>p, <span class="fu">sample</span>(<span class="fu">unique</span>(x)), x)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># Infer degree (truth/target) using kin2degree, then randomly flip 20% of them</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>kinpairs_inferred <span class="ot">&lt;-</span> kinpairs <span class="sc">%&gt;%</span> </span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">degree_truth=</span><span class="fu">kin2degree</span>(k, <span class="at">max_degree=</span><span class="dv">3</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">degree_truth=</span><span class="fu">as.character</span>(degree_truth)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">degree_truth=</span>tidyr<span class="sc">::</span><span class="fu">replace_na</span>(degree_truth, <span class="st">&quot;unrelated&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">degree_inferred=</span><span class="fu">randomflip</span>(degree_truth))</span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>kinpairs_inferred</span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co"># # A tibble: 288 × 6</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#    fid      id1               id2                 k degree_truth degree_inferred</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;          </span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#  1 testped1 testped1_g1-b1-s1 testped1_g1-b1… 0.5   0            0              </span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#  2 testped1 testped1_g1-b1-i1 testped1_g1-b1… 0     unrelated    unrelated      </span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#  3 testped1 testped1_g1-b1-s1 testped1_g2-b1… 0     unrelated    unrelated      </span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#  4 testped1 testped1_g1-b1-s1 testped1_g2-b1… 0.25  1            1              </span></span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#  5 testped1 testped1_g1-b1-s1 testped1_g2-b2… 0     unrelated    unrelated      </span></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#  6 testped1 testped1_g1-b1-s1 testped1_g2-b2… 0.25  1            1              </span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#  7 testped1 testped1_g1-b1-s1 testped1_g3-b1… 0.125 2            2              </span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="co">#  8 testped1 testped1_g1-b1-s1 testped1_g3-b2… 0.125 2            1              </span></span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="co">#  9 testped1 testped1_g1-b1-i1 testped1_g1-b1… 0.5   0            0              </span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="co"># 10 testped1 testped1_g1-b1-i1 testped1_g2-b1… 0     unrelated    unrelated      </span></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="co"># # ℹ 278 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">confusion_matrix</span>(<span class="at">prediction =</span> kinpairs_inferred<span class="sc">$</span>degree_inferred, </span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>                 <span class="at">target =</span> kinpairs_inferred<span class="sc">$</span>degree_truth)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co"># $Accuracy</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co"># # A tibble: 1 × 5</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#   Accuracy `Accuracy LL` `Accuracy UL` `Accuracy Guessing` `Accuracy P-value`</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#      &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;               &lt;dbl&gt;              &lt;dbl&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co"># 1    0.812         0.763         0.856               0.333           1.09e-62</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co"># $Other</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co"># # A tibble: 6 × 15</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#   Class         N Sensitivity/Recall/T…¹ `Specificity/TNR` `PPV/Precision`   NPV</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#   &lt;chr&gt;     &lt;dbl&gt;                  &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># 1 0          64                    0.75              0.964           0.857 0.931</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co"># 2 1          72                    0.806             0.944           0.829 0.936</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co"># 3 2          48                    0.833             0.967           0.833 0.967</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co"># 4 3           8                    0.75              0.936           0.25  0.992</span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co"># 5 unrelated  96                    0.854             0.958           0.911 0.929</span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co"># 6 Average    57.6                  0.799             0.954           0.736 0.951</span></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co"># # ℹ abbreviated name: ¹​`Sensitivity/Recall/TPR`</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co"># # ℹ 9 more variables: `F1/Dice` &lt;dbl&gt;, Prevalence &lt;dbl&gt;,</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co"># #   `Detection Rate` &lt;dbl&gt;, `Detection Prevalence` &lt;dbl&gt;,</span></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co"># #   `Balanced Accuracy` &lt;dbl&gt;, FDR &lt;dbl&gt;, FOR &lt;dbl&gt;, `FPR/Fallout` &lt;dbl&gt;,</span></span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co"># #   FNR &lt;dbl&gt;</span></span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co"># $Table</span></span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#            Target</span></span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co"># Predicted    0  1  2  3 unrelated</span></span>
+<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a><span class="co">#   0         48  4  2  1         1</span></span>
+<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a><span class="co">#   1          5 58  4  0         3</span></span>
+<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a><span class="co">#   2          0  3 40  1         4</span></span>
+<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a><span class="co">#   3          8  4  0  6         6</span></span>
+<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a><span class="co">#   unrelated  3  3  2  0        82</span></span>
+<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a><span class="co"># $recip_rmse</span></span>
+<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co"># [1] 0.4665971</span></span></code></pre></div>
+<p>You can use <code>purrr::pluck()</code> to isolate just the
+contingency table:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">confusion_matrix</span>(<span class="at">prediction =</span> kinpairs_inferred<span class="sc">$</span>degree_inferred, </span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>                 <span class="at">target =</span> kinpairs_inferred<span class="sc">$</span>degree_truth) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">&quot;Table&quot;</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#            Target</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co"># Predicted    0  1  2  3 unrelated</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#   0         48  4  2  1         1</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#   1          5 58  4  0         3</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#   2          0  3 40  1         4</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#   3          8  4  0  6         6</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#   unrelated  3  3  2  0        82</span></span></code></pre></div>
+<p>Or optionally output in a tidy (<code>longer=TRUE</code>) format,
+then spread stats by class:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">confusion_matrix</span>(<span class="at">prediction =</span> kinpairs_inferred<span class="sc">$</span>degree_inferred, </span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>                 <span class="at">target =</span> kinpairs_inferred<span class="sc">$</span>degree_truth, </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>                 <span class="at">longer =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">spread</span>(Class, Value) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(Average, <span class="at">.after=</span>dplyr<span class="sc">::</span><span class="fu">last_col</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate_if</span>(rlang<span class="sc">::</span>is_double, signif, <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="33%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="14%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Statistic</th>
+<th align="right">0</th>
+<th align="right">1</th>
+<th align="right">2</th>
+<th align="right">3</th>
+<th align="right">unrelated</th>
+<th align="right">Average</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Balanced Accuracy</td>
+<td align="right">0.860</td>
+<td align="right">0.880</td>
+<td align="right">0.900</td>
+<td align="right">0.8400</td>
+<td align="right">0.910</td>
+<td align="right">0.880</td>
+</tr>
+<tr class="even">
+<td align="left">Detection Prevalence</td>
+<td align="right">0.190</td>
+<td align="right">0.240</td>
+<td align="right">0.170</td>
+<td align="right">0.0830</td>
+<td align="right">0.310</td>
+<td align="right">0.200</td>
+</tr>
+<tr class="odd">
+<td align="left">Detection Rate</td>
+<td align="right">0.170</td>
+<td align="right">0.200</td>
+<td align="right">0.140</td>
+<td align="right">0.0210</td>
+<td align="right">0.280</td>
+<td align="right">0.160</td>
+</tr>
+<tr class="even">
+<td align="left">F1/Dice</td>
+<td align="right">0.800</td>
+<td align="right">0.820</td>
+<td align="right">0.830</td>
+<td align="right">0.3800</td>
+<td align="right">0.880</td>
+<td align="right">0.740</td>
+</tr>
+<tr class="odd">
+<td align="left">FDR</td>
+<td align="right">0.140</td>
+<td align="right">0.170</td>
+<td align="right">0.170</td>
+<td align="right">0.7500</td>
+<td align="right">0.089</td>
+<td align="right">0.260</td>
+</tr>
+<tr class="even">
+<td align="left">FNR</td>
+<td align="right">0.250</td>
+<td align="right">0.190</td>
+<td align="right">0.170</td>
+<td align="right">0.2500</td>
+<td align="right">0.150</td>
+<td align="right">0.200</td>
+</tr>
+<tr class="odd">
+<td align="left">FOR</td>
+<td align="right">0.069</td>
+<td align="right">0.064</td>
+<td align="right">0.033</td>
+<td align="right">0.0076</td>
+<td align="right">0.071</td>
+<td align="right">0.049</td>
+</tr>
+<tr class="even">
+<td align="left">FPR/Fallout</td>
+<td align="right">0.036</td>
+<td align="right">0.056</td>
+<td align="right">0.033</td>
+<td align="right">0.0640</td>
+<td align="right">0.042</td>
+<td align="right">0.046</td>
+</tr>
+<tr class="odd">
+<td align="left">N</td>
+<td align="right">64.000</td>
+<td align="right">72.000</td>
+<td align="right">48.000</td>
+<td align="right">8.0000</td>
+<td align="right">96.000</td>
+<td align="right">58.000</td>
+</tr>
+<tr class="even">
+<td align="left">NPV</td>
+<td align="right">0.930</td>
+<td align="right">0.940</td>
+<td align="right">0.970</td>
+<td align="right">0.9900</td>
+<td align="right">0.930</td>
+<td align="right">0.950</td>
+</tr>
+<tr class="odd">
+<td align="left">PPV/Precision</td>
+<td align="right">0.860</td>
+<td align="right">0.830</td>
+<td align="right">0.830</td>
+<td align="right">0.2500</td>
+<td align="right">0.910</td>
+<td align="right">0.740</td>
+</tr>
+<tr class="even">
+<td align="left">Prevalence</td>
+<td align="right">0.220</td>
+<td align="right">0.250</td>
+<td align="right">0.170</td>
+<td align="right">0.0280</td>
+<td align="right">0.330</td>
+<td align="right">0.200</td>
+</tr>
+<tr class="odd">
+<td align="left">Sensitivity/Recall/TPR</td>
+<td align="right">0.750</td>
+<td align="right">0.810</td>
+<td align="right">0.830</td>
+<td align="right">0.7500</td>
+<td align="right">0.850</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">Specificity/TNR</td>
+<td align="right">0.960</td>
+<td align="right">0.940</td>
+<td align="right">0.970</td>
+<td align="right">0.9400</td>
+<td align="right">0.960</td>
+<td align="right">0.950</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="ibd-segment-analysis" class="section level2">
+<h2>IBD Segment Analysis</h2>
+<p>Tools such as <code>hap-ibd</code><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> are capable of inferring shared IBD
+segments between individuals. The <code>skater</code> package includes
+functionality to take those IBD segments, compute shared genomic
+centimorgan (cM) length, and convert that shared cM to a kinship
+coefficient. In addition to inferred segments, these functions can
+estimate “truth” kinship from data simulated by <code>ped-sim</code>.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<p>The <code>read_ibd()</code> function reads in the pairwise IBD
+segment format. Input to this function can either be inferred IBD
+segments from hap-IBD (<code>source=&quot;hapibd&quot;</code>) or simulated
+segments (<code>source=&quot;pedsim&quot;</code>). The first example below uses
+data in the <code>hap-ibd</code> output format:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>hapibd_fp <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;GBR.sim.ibd.gz&quot;</span>, <span class="at">package=</span><span class="st">&quot;skater&quot;</span>, <span class="at">mustWork=</span><span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>hapibd_seg <span class="ot">&lt;-</span> <span class="fu">read_ibd</span>(hapibd_fp, <span class="at">source =</span> <span class="st">&quot;hapibd&quot;</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co"># New names:</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co"># • `1` -&gt; `1...2`</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co"># • `1` -&gt; `1...4`</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co"># • `1` -&gt; `1...5`</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>hapibd_seg</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co"># # A tibble: 3,954 × 6</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#    id1               id2                 chr     start       end length</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co">#    &lt;chr&gt;             &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#  1 testped1_g1-b1-s1 testped1_g3-b1-i1     1 197661576 234863602   47.1</span></span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="co">#  2 testped1_g2-b2-i1 testped1_g3-b1-i1     1 197661576 231017545   39.8</span></span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="co">#  3 testped1_g3-b1-i1 testped1_g3-b2-i1     1 197661576 212799139   20.3</span></span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="co">#  4 testped3_g1-b1-s1 testped3_g3-b2-i1     1   2352146  10862397   17.7</span></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="co">#  5 testped3_g2-b2-i1 testped3_g3-b2-i1     1   2352146  10862397   17.7</span></span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="co">#  6 testped1_g1-b1-s1 testped1_g2-b1-i1     1   3328659  64123868   86.4</span></span>
+<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a><span class="co">#  7 testped1_g1-b1-s1 testped1_g3-b1-i1     1   3328659  33476811   51.2</span></span>
+<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a><span class="co">#  8 testped1_g2-b2-s1 testped1_g3-b2-i1     1   5003504  32315147   45.9</span></span>
+<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a><span class="co">#  9 testped2_g1-b1-i1 testped2_g3-b1-i1     1 240810528 248578622   15.9</span></span>
+<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a><span class="co"># 10 testped2_g1-b1-i1 testped2_g2-b2-i1     1 241186056 249170711   15.5</span></span>
+<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a><span class="co"># # ℹ 3,944 more rows</span></span></code></pre></div>
+<p>In order to translate the shared genomic cM length to a kinship
+coefficient, you must load a genetic map with <code>read_map()</code>.
+Software for IBD segment inference and simulation requires a genetic
+map. The map loaded for kinship estimation should be the same one used
+for creating the shared IBD segment output. The example below uses a
+minimal genetic map created with <code>min_map</code><a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> that ships with
+<code>skater</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>gmapfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sexspec-avg-min.plink.map&quot;</span>, <span class="at">package=</span><span class="st">&quot;skater&quot;</span>, <span class="at">mustWork=</span><span class="cn">TRUE</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>gmap <span class="ot">&lt;-</span> <span class="fu">read_map</span>(gmapfile)</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>gmap</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co"># # A tibble: 28,726 × 3</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#      chr  value      bp</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co">#    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co">#  1     1 0       752721</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co">#  2     1 0.0292 1066029</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a><span class="co">#  3     1 0.0829 1099342</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co">#  4     1 0.157  1106473</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co">#  5     1 0.246  1152631</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="co">#  6     1 0.294  1314015</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="co">#  7     1 0.469  1510801</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="co">#  8     1 0.991  1612540</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="co">#  9     1 1.12   1892325</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a><span class="co"># 10     1 1.41   1916587</span></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a><span class="co"># # ℹ 28,716 more rows</span></span></code></pre></div>
+<p>The <code>ibd2kin()</code> function takes the segments and map file
+and outputs a <code>tibble</code> with one row per pair of individuals
+and columns for individual 1 ID, individual 2 ID, and the kinship
+coefficient for the pair:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>ibd_dat <span class="ot">&lt;-</span> <span class="fu">ibd2kin</span>(<span class="at">.ibd_data=</span>hapibd_seg, <span class="at">.map=</span>gmap)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>ibd_dat</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="co"># # A tibble: 196 × 3</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#    id1               id2                kinship</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co">#    &lt;chr&gt;             &lt;chr&gt;                &lt;dbl&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co">#  1 testped1_g1-b1-i1 testped1_g1-b1-s1 0.000316</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co">#  2 testped1_g1-b1-i1 testped1_g2-b1-i1 0.261   </span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#  3 testped1_g1-b1-i1 testped1_g2-b2-i1 0.263   </span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="co">#  4 testped1_g1-b1-i1 testped1_g2-b2-s1 0.000150</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#  5 testped1_g1-b1-i1 testped1_g3-b1-i1 0.145   </span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a><span class="co">#  6 testped1_g1-b1-i1 testped1_g3-b2-i1 0.133   </span></span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a><span class="co">#  7 testped1_g1-b1-i1 testped2_g1-b1-i1 0.000165</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a><span class="co">#  8 testped1_g1-b1-i1 testped2_g1-b1-s1 0.000323</span></span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a><span class="co">#  9 testped1_g1-b1-i1 testped2_g2-b1-i1 0.000499</span></span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a><span class="co"># 10 testped1_g1-b1-i1 testped2_g2-b1-s1 0.000318</span></span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a><span class="co"># # ℹ 186 more rows</span></span></code></pre></div>
+<p>As noted above, the IBD segment kinship estimation can be performed
+on simulated segments. The package includes an example of IBD data in
+that format:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>pedsim_fp <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;GBR.sim.seg.gz&quot;</span>, <span class="at">package=</span><span class="st">&quot;skater&quot;</span>, <span class="at">mustWork=</span><span class="cn">TRUE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>pedsim_seg <span class="ot">&lt;-</span> <span class="fu">read_ibd</span>(pedsim_fp, <span class="at">source =</span> <span class="st">&quot;pedsim&quot;</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>pedsim_seg</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co"># $IBD1</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co"># # A tibble: 1,553 × 6</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#    id1               id2               chr    start       end length</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co">#    &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;  &lt;int&gt;     &lt;int&gt;  &lt;dbl&gt;</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#  1 testped1_g1-b1-s1 testped1_g2-b1-i1 1     752721 249170711   262.</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co">#  2 testped1_g1-b1-s1 testped1_g2-b1-i1 2     118913 243043959   249.</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co">#  3 testped1_g1-b1-s1 testped1_g2-b1-i1 3     108226 197800244   217.</span></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co">#  4 testped1_g1-b1-s1 testped1_g2-b1-i1 4     167596 190936728   200.</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="co">#  5 testped1_g1-b1-s1 testped1_g2-b1-i1 5     157856 180692833   196.</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a><span class="co">#  6 testped1_g1-b1-s1 testped1_g2-b1-i1 6     183917 170981684   184.</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="co">#  7 testped1_g1-b1-s1 testped1_g2-b1-i1 7      46239 159119486   176.</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="co">#  8 testped1_g1-b1-s1 testped1_g2-b1-i1 8     113565 146280471   160.</span></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="co">#  9 testped1_g1-b1-s1 testped1_g2-b1-i1 9     212908 141027939   154.</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="co"># 10 testped1_g1-b1-s1 testped1_g2-b1-i1 10    158946 135473442   166.</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="co"># # ℹ 1,543 more rows</span></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a><span class="co"># $IBD2</span></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a><span class="co"># # A tibble: 132 × 6</span></span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a><span class="co">#    id1               id2               chr       start       end length</span></span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="co">#    &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;  &lt;dbl&gt;</span></span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a><span class="co">#  1 testped1_g2-b1-i1 testped1_g2-b2-i1 1     156666011 162443758  9.43 </span></span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a><span class="co">#  2 testped1_g2-b1-i1 testped1_g2-b2-i1 1     197638290 213685761 20.5  </span></span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a><span class="co">#  3 testped1_g2-b1-i1 testped1_g2-b2-i1 1     243586697 249170711  9.43 </span></span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a><span class="co">#  4 testped1_g2-b1-i1 testped1_g2-b2-i1 2      40779973  67697179 25.7  </span></span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a><span class="co">#  5 testped1_g2-b1-i1 testped1_g2-b2-i1 3      26902677  27840868  0.797</span></span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a><span class="co">#  6 testped1_g2-b1-i1 testped1_g2-b2-i1 3     186680562 192093520 12.1  </span></span>
+<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a><span class="co">#  7 testped1_g2-b1-i1 testped1_g2-b2-i1 4      81060970 100337853 16.7  </span></span>
+<span id="cb23-31"><a href="#cb23-31" tabindex="-1"></a><span class="co">#  8 testped1_g2-b1-i1 testped1_g2-b2-i1 5      24009109  30217553  4.83 </span></span>
+<span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a><span class="co">#  9 testped1_g2-b1-i1 testped1_g2-b2-i1 5      31751157 134562539 83.7  </span></span>
+<span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a><span class="co"># 10 testped1_g2-b1-i1 testped1_g2-b2-i1 5     167835827 168425497  1.15 </span></span>
+<span id="cb23-34"><a href="#cb23-34" tabindex="-1"></a><span class="co"># # ℹ 122 more rows</span></span></code></pre></div>
+<p>Notably, <code>ped-sim</code> differentiates IBD1 and IBD2 segments.
+Given that IBD1 and IBD2 segments are weighted differently in kinship
+calculation, this should be accounted for in processing. In the example
+below the shared IBD is calculated separately for IBD1 and IBD2 with
+<code>type=&quot;IBD1&quot;</code> and <code>type=&quot;IBD2&quot;</code> respectively. You
+can then combine those results and sum the IBD1 and IBD2 kinship
+coefficients to get the overall kinship coefficient:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>ibd1_dat <span class="ot">&lt;-</span> <span class="fu">ibd2kin</span>(<span class="at">.ibd_data=</span>pedsim_seg<span class="sc">$</span>IBD1, <span class="at">.map=</span>gmap, <span class="at">type=</span><span class="st">&quot;IBD1&quot;</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>ibd2_dat <span class="ot">&lt;-</span> <span class="fu">ibd2kin</span>(<span class="at">.ibd_data=</span>pedsim_seg<span class="sc">$</span>IBD2, <span class="at">.map=</span>gmap, <span class="at">type=</span><span class="st">&quot;IBD2&quot;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(ibd1_dat,ibd2_dat) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(id1,id2) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">kinship =</span> <span class="fu">sum</span>(kinship), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="co"># # A tibble: 48 × 3</span></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="co">#    id1               id2               kinship</span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="co">#    &lt;chr&gt;             &lt;chr&gt;               &lt;dbl&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a><span class="co">#  1 testped1_g1-b1-i1 testped1_g2-b1-i1   0.245</span></span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a><span class="co">#  2 testped1_g1-b1-i1 testped1_g2-b2-i1   0.245</span></span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a><span class="co">#  3 testped1_g1-b1-i1 testped1_g3-b1-i1   0.136</span></span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a><span class="co">#  4 testped1_g1-b1-i1 testped1_g3-b2-i1   0.124</span></span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a><span class="co">#  5 testped1_g1-b1-s1 testped1_g2-b1-i1   0.245</span></span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="co">#  6 testped1_g1-b1-s1 testped1_g2-b2-i1   0.245</span></span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a><span class="co">#  7 testped1_g1-b1-s1 testped1_g3-b1-i1   0.109</span></span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a><span class="co">#  8 testped1_g1-b1-s1 testped1_g3-b2-i1   0.121</span></span>
+<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a><span class="co">#  9 testped1_g2-b1-i1 testped1_g2-b2-i1   0.254</span></span>
+<span id="cb24-18"><a href="#cb24-18" tabindex="-1"></a><span class="co"># 10 testped1_g2-b1-i1 testped1_g3-b1-i1   0.245</span></span>
+<span id="cb24-19"><a href="#cb24-19" tabindex="-1"></a><span class="co"># # ℹ 38 more rows</span></span></code></pre></div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://www.cog-genomics.org/plink/1.9/formats#fam" class="uri">https://www.cog-genomics.org/plink/1.9/formats#fam</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Sinnwell, Jason P., Terry M. Therneau, and Daniel J.
+Schaid. “The kinship2 R package for pedigree data.” <em>Human
+heredity</em> 78.2 (2014): 91-93.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Manichaikul, A., Mychaleckyj, J. C., Rich, S. S., Daly,
+K., Sale, M., &amp; Chen, W. M. (2010). Robust relationship inference in
+genome-wide association studies. Bioinformatics (Oxford, England),
+26(22), 2867–2873. <a href="https://doi.org/10.1093/bioinformatics/btq559" class="uri">https://doi.org/10.1093/bioinformatics/btq559</a><a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://github.com/m-clark/confusionMatrix" class="uri">https://github.com/m-clark/confusionMatrix</a><a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://github.com/browning-lab/hap-ibd#output-files" class="uri">https://github.com/browning-lab/hap-ibd#output-files</a><a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p><a href="https://github.com/williamslab/ped-sim#output-ibd-segments-file" class="uri">https://github.com/williamslab/ped-sim#output-ibd-segments-file</a><a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p><a href="https://github.com/williamslab/min_map" class="uri">https://github.com/williamslab/min_map</a><a href="#fnref7" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
